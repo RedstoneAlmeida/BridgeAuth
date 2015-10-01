@@ -1,0 +1,5 @@
+name: BridgeAuth
+version: 0.0.1
+api: [1.12.0]
+author: Falkirks
+main: epicmc\bridgeauth\BridgeAuth
