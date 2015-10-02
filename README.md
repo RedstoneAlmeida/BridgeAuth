@@ -1,3 +1,3 @@
 BridgeAuth
 ========
-BridgeAuth is an authentication that uses the EPICMC BridgeAPI.
+BridgeAuth is a centralized authentication platform that utilizes the EPICMC Bridge API.
