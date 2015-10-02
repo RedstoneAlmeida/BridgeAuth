@@ -115,13 +115,13 @@ class BridgeAuth extends PluginBase implements Listener{
                 case BridgeAuth::NOT_REGISTERED:
                     $this->waitingAuthentication[$player->getName()] = $player;
                     unset($this->pendingAuthentication[$player->getName()]);
-                    $player->sendMessage("There isn't account with that username. You can register one at https://epicmc.us/register");
+                    $player->sendMessage("There isn't an account with that username. You can register one at https://epicmc.us/register");
                     break;
                 case BridgeAuth::INVALID_ACCESS_TOKEN:
                     $this->waitingAuthentication[$player->getName()] = $player;
                     unset($this->pendingAuthentication[$player->getName()]);
                     $this->getLogger()->critical("EPICMC access_token is invalid.");
-                    $player->sendMessage("This server can't communicate with the Bridge API due to an invalid token. The server admin has been notified.");
+                    $player->sendMessage("This server can't communicate with the Bridge API due to an invalid access_token. The server admin has been notified.");
                     break;
                 case BridgeAuth::TEMPORARILY_THROTTLED:
                     $player->kick("You have made too many login attempts.");
