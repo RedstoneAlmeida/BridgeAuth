@@ -1,21 +1,5 @@
 <?php
 
-/*
-
- /$$$$$$$            /$$       /$$                      /$$$$$$              /$$     /$$      
-| $$__  $$          |__/      | $$                     /$$__  $$            | $$    | $$      
-| $$  \ $$  /$$$$$$  /$$  /$$$$$$$  /$$$$$$   /$$$$$$ | $$  \ $$ /$$   /$$ /$$$$$$  | $$$$$$$ 
-| $$$$$$$  /$$__  $$| $$ /$$__  $$ /$$__  $$ /$$__  $$| $$$$$$$$| $$  | $$|_  $$_/  | $$__  $$
-| $$__  $$| $$  \__/| $$| $$  | $$| $$  \ $$| $$$$$$$$| $$__  $$| $$  | $$  | $$    | $$  \ $$
-| $$  \ $$| $$      | $$| $$  | $$| $$  | $$| $$_____/| $$  | $$| $$  | $$  | $$ /$$| $$  | $$
-| $$$$$$$/| $$      | $$|  $$$$$$$|  $$$$$$$|  $$$$$$$| $$  | $$|  $$$$$$/  |  $$$$/| $$  | $$
-|_______/ |__/      |__/ \_______/ \____  $$ \_______/|__/  |__/ \______/    \___/  |__/  |__/
-                                   /$$  \ $$                                                  
-                                  |  $$$$$$/                                                  
-                                   \______/     
-                                                                                 
-*/
-
 namespace epicmc\bridgeauth;
 
 use epicmc\bridgeauth\task\AuthenticateTask;
@@ -54,7 +38,7 @@ class BridgeAuth extends PluginBase implements Listener{
     }
     public function onPlayerJoin(PlayerJoinEvent $event){
         if(isset($this->localCache[$event->getPlayer()->getAddress()]) && isset($this->localCache[$event->getPlayer()->getAddress()][$event->getPlayer()->getName()])){
-            $event->getPlayer->sendPopup(TextFormat::GREEN . "Attempting to authenticate...");
+            $event->getPlayer()->sendPopup(TextFormat::GREEN . "Attempting to authenticate...");
             $this->pendingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
             $task = new AuthenticateTask($this->getConfig()->get('access_token'), $event->getPlayer()->getName(), $this->localCache[$event->getPlayer()->getAddress()][$event->getPlayer()->getName()]);
             $this->getServer()->getScheduler()->scheduleAsyncTask($task);
