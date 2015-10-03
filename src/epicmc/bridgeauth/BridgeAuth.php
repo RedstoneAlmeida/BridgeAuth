@@ -1,7 +1,6 @@
 <?php
 namespace epicmc\bridgeauth;
 
-
 use epicmc\bridgeauth\task\AuthenticateTask;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
@@ -35,38 +34,35 @@ class BridgeAuth extends PluginBase implements Listener{
         $this->waitingAuthentication = [];
         $this->pendingAuthentication = [];
         $this->localCache = [];
-        $this->getLogger()->info("\n-------------------------------------\n\nEPICMC Bridge Auth\nThis server is using the EPICMC bridge authentication system with " . $this->getConfig()->get('access-token') . " as the access token. Your usage of the API will be monitored by EPICMC and will be suspended following malicious use.\n\n-------------------------------------");
     }
     public function onPlayerJoin(PlayerJoinEvent $event){
         if(isset($this->localCache[$event->getPlayer()->getAddress()]) && isset($this->localCache[$event->getPlayer()->getAddress()][$event->getPlayer()->getName()])){
-            $event->getPlayer()->sendMessage("Attempting to authenticate you with saved data...");
+            $event->getPlayer()->sendMessage(TextFormat::GREEN . "Attempting to authenticate with saved data...");
             $this->pendingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
-            $task = new AuthenticateTask($this->getConfig()->get('access-token'), $event->getPlayer()->getName(), $this->localCache[$event->getPlayer()->getAddress()][$event->getPlayer()->getName()]);
+            $task = new AuthenticateTask($this->getConfig()->get('access_token'), $event->getPlayer()->getName(), $this->localCache[$event->getPlayer()->getAddress()][$event->getPlayer()->getName()]);
             $this->getServer()->getScheduler()->scheduleAsyncTask($task);
         }
         else{
             $this->waitingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
-            $event->getPlayer()->sendMessage(TextFormat::DARK_GREEN . "EPICMC" . TextFormat::RESET ." BridgeAuth");
-            $event->getPlayer()->sendMessage("> Enter your 14 character bridge_token in the chat.");
-            $event->getPlayer()->sendMessage("> You can claim yours at https://epicmc.us/account");
+            $event->getPlayer()->sendMessage(TextFormat::WHITE .">>>>>>>>>>>>>>>>> " . TextFormat::GOLD . "BridgeAuth" . TextFormat::WHITE . " <<<<<<<<<<<<<<<<<<\n".TextFormat::GRAY ."This server uses the EPICMC Bridge API to authenticate its players.".TextFormat::WHITE ."\n".TextFormat::ITALIC ."- To login enter your bridge token listed at " . TextFormat::GREEN . "epicmc.us/account" . TextFormat::WHITE . ". \n>>>>>>>>>>>>> " . TextFormat::BLUE . "Twitter: @EPICMC_US" . TextFormat::WHITE . " <<<<<<<<<<<<<");
         }
     }
     public function onPlayerChat(PlayerChatEvent $event){
         if(isset($this->waitingAuthentication[$event->getPlayer()->getName()])){
             if(strlen($event->getMessage()) === 14) {
-                $event->getPlayer()->sendMessage("Attempting to authenticate...");
+                $event->getPlayer()->sendMessage(TextFormat::GREEN . "Attempting to authenticate...");
                 $this->pendingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
                 unset($this->waitingAuthentication[$event->getPlayer()->getName()]);
-                $task = new AuthenticateTask($this->getConfig()->get('access-token'), $event->getPlayer()->getName(), $event->getMessage());
+                $task = new AuthenticateTask($this->getConfig()->get('access_token'), $event->getPlayer()->getName(), $event->getMessage());
                 $this->getServer()->getScheduler()->scheduleAsyncTask($task);
             }
             else{
-                $event->getPlayer()->sendMessage("That bridge token isn't valid. Bridge tokens are 14 characters long.");
+                $event->getPlayer()->sendMessage(TextFormat::WHITE .">>>>>>>>>>>>>>>>> " . TextFormat::GOLD . "BridgeAuth" . TextFormat::WHITE . " <<<<<<<<<<<<<<<<<<\n".TextFormat::RED ."Your bridge token is supposed to be a fourteen character string.".TextFormat::WHITE ."\n".TextFormat::ITALIC ."- To login enter your bridge token listed at " . TextFormat::GREEN . "epicmc.us/account" . TextFormat::WHITE . ". \n>>>>>>>>>>>>> " . TextFormat::BLUE . "Twitter: @EPICMC_US" . TextFormat::WHITE . " <<<<<<<<<<<<<");
             }
             $event->setCancelled();
         }
         elseif(isset($this->pendingAuthentication[$event->getPlayer()->getName()])){
-            $event->getPlayer()->sendMessage("You can't authenticate at this time.");
+            $event->getPlayer()->sendMessage(TextFormat::WHITE .">>>>>>>>>>>>>>>>> " . TextFormat::GOLD . "BridgeAuth" . TextFormat::WHITE . " <<<<<<<<<<<<<<<<<<\n".TextFormat::RED ."Unable to authenticate right now.".TextFormat::WHITE ."\n".TextFormat::ITALIC ."- Try again! To login enter your bridge token listed at " . TextFormat::GREEN . "epicmc.us/account" . TextFormat::WHITE . ". \n>>>>>>>>>>>>> " . TextFormat::BLUE . "Twitter: @EPICMC_US" . TextFormat::WHITE . " <<<<<<<<<<<<<");
             $event->setCancelled();
         }
     }
@@ -97,7 +93,7 @@ class BridgeAuth extends PluginBase implements Listener{
                 case BridgeAuth::UNSUCCESSFUL_LOGIN:
                     $this->waitingAuthentication[$player->getName()] = $player;
                     unset($this->pendingAuthentication[$player->getName()]);
-                    $player->sendMessage("Bad bridge token. You can try again.");
+                    $player->sendMessage(TextFormat::WHITE .">>>>>>>>>>>>>>>>> " . TextFormat::GOLD . "BridgeAuth" . TextFormat::WHITE . " <<<<<<<<<<<<<<<<<<\n".TextFormat::RED ."The bridge token you entered was incorrect.".TextFormat::WHITE ."\n".TextFormat::ITALIC ."- To reset your bridge token visit " . TextFormat::GREEN . "epicmc.us/account" . TextFormat::WHITE . ". \n- Or exit and choose an available username.\n>>>>>>>>>>>>> " . TextFormat::BLUE . "Twitter: @EPICMC_US" . TextFormat::WHITE . " <<<<<<<<<<<<<");
                     break;
                 case BridgeAuth::SUCCESSFUL_LOGIN:
                     unset($this->pendingAuthentication[$player->getName()]);
@@ -105,31 +101,31 @@ class BridgeAuth extends PluginBase implements Listener{
                         $this->localCache[$player->getAddress()] = [];
                     }
                     $this->localCache[$player->getAddress()][$player->getName()] = $bridgeToken;
-                    $player->sendMessage("Authenticated with EPICMC Bridge API.");
+                    $player->sendMessage(TextFormat::GREEN . "Authenticated using the EPICMC Bridge API");
                     break;
                 case BridgeAuth::BRIDGE_TOKEN_NOT_CLAIMED:
                     $this->waitingAuthentication[$player->getName()] = $player;
                     unset($this->pendingAuthentication[$player->getName()]);
-                    $player->sendMessage("Your account doesn't have a bridge_token associated with it. You can claim yours at https://epicmc.us/account");
+                    $player->sendMessage(TextFormat::WHITE .">>>>>>>>>>>>>>>>> " . TextFormat::GOLD . "BridgeAuth" . TextFormat::WHITE . " <<<<<<<<<<<<<<<<<<\n".TextFormat::RED ."This account hasn't generated a bridge token yet.".TextFormat::WHITE ."\n".TextFormat::ITALIC ."- To generate a bridge token visit " . TextFormat::GREEN . "epicmc.us/account" . TextFormat::WHITE . ". \n- Your bridge token is used in place of your password when logging into the Bridge API.\n>>>>>>>>>>>>> " . TextFormat::BLUE . "Twitter: @EPICMC_US" . TextFormat::WHITE . " <<<<<<<<<<<<<");
                     break;
                 case BridgeAuth::NOT_REGISTERED:
                     $this->waitingAuthentication[$player->getName()] = $player;
                     unset($this->pendingAuthentication[$player->getName()]);
-                    $player->sendMessage("There isn't an account with that username. You can register one at https://epicmc.us/register");
+                    $player->sendMessage(TextFormat::WHITE .">>>>>>>>>>>>>>>>> " . TextFormat::GOLD . "BridgeAuth" . TextFormat::WHITE . " <<<<<<<<<<<<<<<<<<\n".TextFormat::GRAY ."This server uses the EPICMC Bridge API to authenticate its players.".TextFormat::WHITE ."\n".TextFormat::ITALIC ."- To register this account visit " . TextFormat::GREEN . "epicmc.us/register" . TextFormat::WHITE . ". \n- After verifying your email you'll be able to generate a bridge token.\n>>>>>>>>>>>>> " . TextFormat::BLUE . "Twitter: @EPICMC_US" . TextFormat::WHITE . " <<<<<<<<<<<<<");
                     break;
                 case BridgeAuth::INVALID_ACCESS_TOKEN:
                     $this->waitingAuthentication[$player->getName()] = $player;
                     unset($this->pendingAuthentication[$player->getName()]);
-                    $this->getLogger()->critical("EPICMC access_token is invalid.");
-                    $player->sendMessage("This server can't communicate with the Bridge API due to an invalid access_token. The server admin has been notified.");
+                    $this->getLogger()->critical(TextFormat::GOLD . "[BridgeAuth] " . TextFormat::RED . "Error! " . "" . TextFormat::RED . "Unable to query the Bridge API.\nVisit " . TextFormat::GREEN . "epicmc.us/account" . TextFormat::RED . ", and make sure you entered the correct access_token in your config.");
+                    $player->sendMessage(TextFormat::GOLD . "[BridgeAuth] " . TextFormat::RED . "Error! " . TextFormat::RED . "This plugin isn't properly configured, and is unable to query the Bridge API.");
                     break;
                 case BridgeAuth::TEMPORARILY_THROTTLED:
-                    $player->kick("You have made too many login attempts.");
+                    $player->kick(TextFormat::RED . "You have made too many login attempts.");
                     break;
             }
         }
         else{
-            $this->getLogger()->warning("Extraneous request detected. Result ignored.");
+            $this->getLogger()->warning(TextFormat::RED . "Extraneous request detected. Result ignored.");
         }
     }
     public function onPlayerQuit(PlayerQuitEvent $event){
