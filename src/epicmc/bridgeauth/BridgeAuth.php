@@ -38,6 +38,7 @@ class BridgeAuth extends PluginBase implements Listener{
     }
     public function onPlayerJoin(PlayerJoinEvent $event){
         if(isset($this->localCache[$event->getPlayer()->getAddress()]) && isset($this->localCache[$event->getPlayer()->getAddress()][$event->getPlayer()->getName()])){
+            $event->getPlayer()->sendTip(TextFormat::GOLD . "Welcome back!");
             $event->getPlayer()->sendPopup(TextFormat::GREEN . "Attempting to authenticate...");
             $this->pendingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
             $task = new AuthenticateTask($this->getConfig()->get('access_token'), $event->getPlayer()->getName(), $this->localCache[$event->getPlayer()->getAddress()][$event->getPlayer()->getName()]);
