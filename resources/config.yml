@@ -1,3 +1,3 @@
 # Visit epicmc.us/account to claim an access_token. You can't query any EPICMC API without one.
 ---
-access-token: '32 character access_token goes here'
+access_token: '32 character access_token goes here'
