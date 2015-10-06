@@ -14,6 +14,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
+use pocketmine\level\sound\LaunchSound;
 
 class BridgeAuth extends PluginBase implements Listener{
     /** @var  Player[] */
@@ -104,6 +105,8 @@ class BridgeAuth extends PluginBase implements Listener{
                     }
                     $this->localCache[$player->getAddress()][$player->getName()] = $bridgeToken;
                     $player->sendPopup(TextFormat::GREEN . "Authenticated");
+                    $launch = new LaunchSound($sender);
+                    $player->getLevel()->addSound($launch);
                     break;
                 case BridgeAuth::BRIDGE_TOKEN_NOT_CLAIMED:
                     $this->waitingAuthentication[$player->getName()] = $player;
