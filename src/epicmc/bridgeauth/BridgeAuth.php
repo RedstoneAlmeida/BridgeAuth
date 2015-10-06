@@ -115,7 +115,7 @@ $player = $event->getPlayer();
                     }
                     $this->localCache[$player->getAddress()][$player->getName()] = $bridgeToken;
                     $player->sendPopup(TextFormat::GREEN . "Authenticated");
-                    $launch = new LaunchSound($sender);
+                    $launch = new LaunchSound($player);
                     $player->getLevel()->addSound($launch);
                     break;
                 case BridgeAuth::BRIDGE_TOKEN_NOT_CLAIMED:
