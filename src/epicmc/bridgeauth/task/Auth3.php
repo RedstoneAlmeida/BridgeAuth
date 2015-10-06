@@ -10,6 +10,6 @@ use pocketmine\Server;
 class Auth3 extends PluginTask{
 
     public function onRun($currentTick) {
-$sender->sendPopup(Authenticating... ooO");
+$sender->sendPopup("Authenticating... ooO");
     }
 }
