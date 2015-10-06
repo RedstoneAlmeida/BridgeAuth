@@ -53,6 +53,7 @@ class BridgeAuth extends PluginBase implements Listener{
     public function onPlayerChat(PlayerChatEvent $event){
         if(isset($this->waitingAuthentication[$event->getPlayer()->getName()])){
             if(strlen($event->getMessage()) === 14) {
+$player = $event->getPlayer();
                 $event->getPlayer()->sendPopup(TextFormat::GREEN . "Attempting to authenticate...");
                 $this->pendingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
                 unset($this->waitingAuthentication[$event->getPlayer()->getName()]);
