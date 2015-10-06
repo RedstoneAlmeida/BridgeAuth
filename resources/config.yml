@@ -1,3 +1,6 @@
 # Visit epicmc.us/account to claim an access_token. You can't query any EPICMC API without one.
 ---
 access_token: '32 character access_token goes here'
+
+#Use § and a number for color. Ex: §1EPICMC will show a blue text saying EPICMC
+ServerName: §1EPICMC
