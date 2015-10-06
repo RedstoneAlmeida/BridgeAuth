@@ -41,14 +41,6 @@ class BridgeAuth extends PluginBase implements Listener{
         if(isset($this->localCache[$event->getPlayer()->getAddress()]) && isset($this->localCache[$event->getPlayer()->getAddress()][$event->getPlayer()->getName()])){
             $event->getPlayer()->sendTip(TextFormat::GOLD . "Welcome back!");
             $event->getPlayer()->sendPopup(TextFormat::GREEN . "Attempting to authenticate...");
-        $time = intval(20);
-        $this->getServer()->getScheduler()->scheduleTask(new task\Auth1($this), $time);
-        $time = intval(40);
-        $this->getServer()->getScheduler()->scheduleTask(new task\Auth2($this), $time);
-        $time = intval(60);
-        $this->getServer()->getScheduler()->scheduleTask(new task\Auth3($this), $time);
-
-
 
             $this->pendingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
             $task = new AuthenticateTask($this->getConfig()->get('access_token'), $event->getPlayer()->getName(), $this->localCache[$event->getPlayer()->getAddress()][$event->getPlayer()->getName()]);
@@ -64,12 +56,6 @@ class BridgeAuth extends PluginBase implements Listener{
             if(strlen($event->getMessage()) === 14) {
 $player = $event->getPlayer();
                 $event->getPlayer()->sendPopup(TextFormat::GREEN . "Attempting to authenticate...");
-    $time = intval(20);
-        $this->getServer()->getScheduler()->scheduleTask(new task\Auth1($this), $time);
-        $time = intval(40);
-        $this->getServer()->getScheduler()->scheduleTask(new task\Auth2($this), $time);
-        $time = intval(60);
-        $this->getServer()->getScheduler()->scheduleTask(new task\Auth3($this), $time);
 
                 $this->pendingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
                 unset($this->waitingAuthentication[$event->getPlayer()->getName()]);
