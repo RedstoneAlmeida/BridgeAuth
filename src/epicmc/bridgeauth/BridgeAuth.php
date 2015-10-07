@@ -121,7 +121,7 @@ $player = $event->getPlayer();
                 case BridgeAuth::NOT_REGISTERED:
                     $this->waitingAuthentication[$player->getName()] = $player;
                     unset($this->pendingAuthentication[$player->getName()]);
-                    $player->sendMessage(TextFormat::YELLOW ."This server uses the EPICMC Bridge API to authenticate its players."\n.TextFormat::ITALIC ."- To register this account visit " . TextFormat::GREEN . "epicmc.us/register" . TextFormat::WHITE . ". \n- After verifying your email you'll be able to generate a bridge token.");
+                    $player->sendMessage(TextFormat::YELLOW ."This server uses the EPICMC Bridge API to authenticate its players.\n".TextFormat::ITALIC ."- To register this account visit " . TextFormat::GREEN . "epicmc.us/register" . TextFormat::WHITE . ". \n- After verifying your email you'll be able to generate a bridge token.");
                     break;
                 case BridgeAuth::INVALID_ACCESS_TOKEN:
                     $this->waitingAuthentication[$player->getName()] = $player;
