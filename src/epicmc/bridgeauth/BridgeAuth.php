@@ -15,6 +15,7 @@ use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 use pocketmine\level\sound\LaunchSound;
+use pocketmine\utils\Config;
 
 class BridgeAuth extends PluginBase implements Listener{
     /** @var  Player[] */
