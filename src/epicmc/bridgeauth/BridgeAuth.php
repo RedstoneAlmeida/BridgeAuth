@@ -50,7 +50,7 @@ class BridgeAuth extends PluginBase implements Listener{
         }
         else{
             $this->waitingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
-            $event->getPlayer()->sendMessage(TextFormat::YELLOW ."This server uses the §l§2EPICMC Bridge API " . TextFormat::YELLOW . "to authenticate its players.\n".TextFormat::ITALIC ." - To login enter your bridge token listed at " . TextFormat::GREEN . "epicmc.us/account" . TextFormat::WHITE . ".");
+            $event->getPlayer()->sendMessage(TextFormat::YELLOW ."This server uses the EPICMC Bridge API to authenticate its players.\n".TextFormat::ITALIC ." - To login enter your bridge token listed at " . TextFormat::GREEN . "epicmc.us/account" . TextFormat::WHITE . ".");
         }
     }
     public function onPlayerChat(PlayerChatEvent $event){
@@ -121,7 +121,7 @@ $player = $event->getPlayer();
                 case BridgeAuth::NOT_REGISTERED:
                     $this->waitingAuthentication[$player->getName()] = $player;
                     unset($this->pendingAuthentication[$player->getName()]);
-                    $player->sendMessage(TextFormat::WHITE ."This server uses the EPICMC Bridge API to authenticate its players.".TextFormat::WHITE ."\n".TextFormat::ITALIC ."- To register this account visit " . TextFormat::GREEN . "epicmc.us/register" . TextFormat::WHITE . ". \n- After verifying your email you'll be able to generate a bridge token.");
+                    $player->sendMessage(TextFormat::YELLOW ."This server uses the EPICMC Bridge API to authenticate its players.\n.TextFormat::ITALIC ."- To register this account visit " . TextFormat::GREEN . "epicmc.us/register" . TextFormat::WHITE . ". \n- After verifying your email you'll be able to generate a bridge token.");
                     break;
                 case BridgeAuth::INVALID_ACCESS_TOKEN:
                     $this->waitingAuthentication[$player->getName()] = $player;
