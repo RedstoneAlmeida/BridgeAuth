@@ -62,7 +62,7 @@ $player = $event->getPlayer();
 
                 $this->pendingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
                 unset($this->waitingAuthentication[$event->getPlayer()->getName()]);
-                $task = new AuthenticateTask($this->getConfig()->get('access_token'), $event->getPlayer()->getName(), $event->getMessage());
+                $task = new AuthenticateTask($this->getConfig()->get('access_token'), ($this->getConfig()->get('server_ip'), ($this->getConfig()->get('server_port'), $event->getPlayer()->getName(), $event->getMessage());
                 $this->getServer()->getScheduler()->scheduleAsyncTask($task);
             }
             else{
@@ -95,7 +95,7 @@ $player = $event->getPlayer();
             $event->setCancelled();
         }
     }
-    public function authComplete($accessToken, $name, $bridgeToken, $result){
+    public function authComplete($accessToken, $serverIP, $serverPort, $name, $bridgeToken, $result){
         if(isset($this->pendingAuthentication[$name])){
             $player = $this->pendingAuthentication[$name];
             switch($result){
