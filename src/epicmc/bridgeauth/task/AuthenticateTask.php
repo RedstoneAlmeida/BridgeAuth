@@ -23,7 +23,7 @@ class AuthenticateTask extends AsyncTask{
      * @return void
      */
     public function onRun(){
-        $this->setResult(Utils::getURL(BridgeAuth::EPICMC_API_URL . "?access_token=" . $this->accessToken . "&player_name=" . $this->name . "&bridge_token=" . $this->bridgeToken));
+        $this->setResult(Utils::getURL(BridgeAuth::EPICMC_API_URL . "/" . $this->accessToken . "/" . $this->name . "/" . $this->bridgeToken));
     }
 
     public function onCompletion(Server $server){
