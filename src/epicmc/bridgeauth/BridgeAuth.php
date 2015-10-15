@@ -46,7 +46,7 @@ class BridgeAuth extends PluginBase implements Listener{
             $event->getPlayer()->sendPopup(TextFormat::GREEN . "Authenticating with saved data...");
 
             $this->pendingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
-            $task = new AuthenticateTask($this->getConfig()->get('access_token'), $event->getPlayer()->getName(), $this->localCache[$event->getPlayer()->getAddress()][$event->getPlayer()->getName()]);
+            $task = new AuthenticateTask($this->getConfig()->get('access_token'), $this->getConfig()->get('server_ip'), $this->getConfig()->get('server_port'), $event->getPlayer()->getName(), $this->localCache[$event->getPlayer()->getAddress()][$event->getPlayer()->getName()]);
             $this->getServer()->getScheduler()->scheduleAsyncTask($task);
         }
         else{
@@ -62,7 +62,7 @@ $player = $event->getPlayer();
 
                 $this->pendingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
                 unset($this->waitingAuthentication[$event->getPlayer()->getName()]);
-                $task = new AuthenticateTask($this->getConfig()->get('access_token'), ($this->getConfig()->get('server_ip'), ($this->getConfig()->get('server_port'), $event->getPlayer()->getName(), $event->getMessage());
+                $task = new AuthenticateTask($this->getConfig()->get('access_token'), $this->getConfig()->get('server_ip'), $this->getConfig()->get('server_port'), $event->getPlayer()->getName(), $event->getMessage());
                 $this->getServer()->getScheduler()->scheduleAsyncTask($task);
             }
             else{
