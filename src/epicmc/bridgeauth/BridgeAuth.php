@@ -51,7 +51,7 @@ class BridgeAuth extends PluginBase implements Listener{
         }
         else{
             $this->waitingAuthentication[$event->getPlayer()->getName()] = $event->getPlayer();
-            $event->getPlayer()->sendMessage(TextFormat::DARK_GREEN ."[EPICMC] " . TextFormat::YELLOW . "This server uses the Bridge API to handle player authentication.\n- You can find your bridge token by logging in online at " . TextFormat::GREEN . "epicmc.us/account" . TextFormat::WHITE . ".\n- Your bridge token is used in place of your EPICMC password when authenticating on servers that use the Bridge API.\n" . TextFormat::GRAY . "== Action: ==\n" . TextFormat::GRAY . "> " . TextFormat::ITALIC . "To login enter your bridge token into chat.\n" . TextFormat::GRAY . "===========");
+            $event->getPlayer()->sendMessage(TextFormat::DARK_GREEN ."[EPICMC] " . TextFormat::YELLOW . "This server uses the Bridge API to handle player authentication.\n- You can find your bridge token by logging in online at " . TextFormat::GREEN . "epicmc.us/account" . TextFormat::WHITE . ".\n- Your bridge token is used in place of your EPICMC password when authenticating on servers that use the Bridge API.\n" . TextFormat::GRAY . "> " . TextFormat::ITALIC . "To login enter your bridge token into chat.\n");
         }
     }
     public function onPlayerChat(PlayerChatEvent $event){
