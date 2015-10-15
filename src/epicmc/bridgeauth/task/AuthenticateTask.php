@@ -10,11 +10,15 @@ class AuthenticateTask extends AsyncTask{
     protected $accessToken;
     protected $name;
     protected $bridgeToken;
+    protected $serverIP;
+    protected $serverPort;
 
-    public function __construct($accessToken, $name, $bridgeToken){
+    public function __construct($accessToken, $name, $bridgeToken, $serverIP, $serverPort){
         $this->accessToken = $accessToken;
         $this->name = $name;
         $this->bridgeToken = $bridgeToken;
+        $this->serverIP = $serverIP;
+        $this->serverPort = $serverPort;
     }
 
     /**
@@ -23,13 +27,13 @@ class AuthenticateTask extends AsyncTask{
      * @return void
      */
     public function onRun(){
-        $this->setResult(Utils::getURL(BridgeAuth::EPICMC_API_URL . "/" . $this->accessToken . "/" . $this->name . "/" . $this->bridgeToken));
+        $this->setResult(Utils::getURL(BridgeAuth::EPICMC_API_URL . "/" . $this->accessToken . "/" . $this->serverIP . "/" . $this->serverPort . "/" . $this->name . "/" . $this->bridgeToken));
     }
 
     public function onCompletion(Server $server){
         $plugin = $server->getPluginManager()->getPlugin("BridgeAuth");
         if($plugin instanceof BridgeAuth && $plugin->isEnabled()){
-            $plugin->authComplete($this->accessToken, $this->name, $this->bridgeToken, $this->getResult());
+            $plugin->authComplete($this->accessToken, $this->serverIP, $this->$serverPort, $this->name, $this->bridgeToken, $this->getResult());
         }
 
     }
